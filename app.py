@@ -81,7 +81,8 @@ if not api_key:
 
 # تهيئة Gemini API
 genai.configure(api_key=api_key)
-model = genai.GenerativeModel("gemini-1.5-flash-latest")
+model = genai.GenerativeModel("gemini-1.5-flash")
+
 
 # إدارة سجل الرسائل
 if "messages" not in st.session_state:
@@ -123,7 +124,7 @@ if mode == "💬 المحادثة نصاً وصوتاً":
 # ==========================================
 # 4. وضع تحليل ومعالجة الصوتيات
 # ==========================================
-elif mode == "🎙️ تحليل التسجيلات الصوتية":
+elimode == "🎙️ تحليل التسجيلات الصوتية":
     st.title("🎙️ تحليل ومعالجة الصوتيات")
     st.caption("ارفع أي تسجيل صوتي لتقوم المنظومة بتحليله أو الإجابة عليه")
     
