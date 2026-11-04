@@ -70,8 +70,8 @@ genai.configure(api_key=api_key)
 
 # استخدام النموذج المعتمد والمستقرار تماماً لضمان عدم ظهور خطأ 404
 try:
-    model = genai.GenerativeModel("gemini-pro")
-except:
+    model = genai.GenerativeModel("gemini-1.5-flash")
+      except:
     model = genai.GenerativeModel("gemini-1.5-flash")
 
 if "messages" not in st.session_state:
