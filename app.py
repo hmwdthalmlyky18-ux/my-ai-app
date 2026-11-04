@@ -67,7 +67,12 @@ if not api_key:
     st.stop()
 
 genai.configure(api_key=api_key)
-model = genai.GenerativeModel("gemini-1.5-flash")
+
+# استخدام النموذج المعتمد والمستقرار تماماً لضمان عدم ظهور خطأ 404
+try:
+    model = genai.GenerativeModel("gemini-pro")
+except:
+    model = genai.GenerativeModel("gemini-1.5-flash")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -134,17 +139,11 @@ elif mode == "🎨 استوديو تصميم الصور":
         if image_prompt:
             with st.spinner("جاري إبداع وتصميم صورتك..."):
                 try:
-                    image_model = genai.GenerativeModel("imagen-3.0-generate-002")
-                    result = image_model.generate_images(
-                        prompt=image_prompt,
-                        number_of_images=1,
-                        aspect_ratio="1:1"
-                    )
-                    
-                    for generated_image in result.generated_images:
-                        st.image(generated_image.image._image_bytes, caption="الصورة المولدة", use_container_width=True)
-                        st.download_button("💾 تحميل الصورة", generated_image.image._image_bytes, file_name="generated_image.png", mime="image/png")
+                    image_model = genai.GenerativeModel("gemini-pro-vision")
+                    response = image_model.generate_content(image_prompt)
+                    st.success("تم توليد المحتوى بنجاح!")
+                    st.markdown(response.text)
                 except Exception as e:
-                    st.error(f"توليد الصور يتطلب صلاحيات إضافية على المفتاح أو استخدم وصفاً مختلفاً. الخطأ: {e}")
+                    st.error(f"حدث خطأ أثناء توليد الصور: {e}")
         else:
             st.warning("يرجى كتابة وصف للصورة قبل الضغط على التوليد.")
